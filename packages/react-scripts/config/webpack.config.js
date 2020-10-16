@@ -103,7 +103,11 @@ module.exports = function(webpackEnv) {
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: () => [
+            // Malcolm change - start
+            require('tailwindcss'),
+            require('postcss-focus-visible'),
             require('postcss-flexbugs-fixes'),
+            // Malcolm change - end
             require('postcss-preset-env')({
               autoprefixer: {
                 flexbox: 'no-2009',
@@ -162,6 +166,7 @@ module.exports = function(webpackEnv) {
       // require.resolve('webpack/hot/dev-server'),
       isEnvDevelopment &&
         require.resolve('react-dev-utils/webpackHotDevClient'),
+      require.resolve('focus-visible'),
       // Finally, this is your app's code:
       paths.appIndexJs,
       // We include the app code last so that if there is a runtime error during
