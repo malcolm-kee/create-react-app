@@ -1,10 +1,10 @@
 {
-  "name": "react-scripts",
+  "name": "mk-scripts",
   "version": "3.4.1",
-  "description": "Configuration and scripts for Create React App.",
+  "description": "Fork from react-scripts.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/create-react-app.git",
+    "url": "https://github.com/malcolm-kee/create-react-app",
     "directory": "packages/react-scripts"
   },
   "license": "MIT",
