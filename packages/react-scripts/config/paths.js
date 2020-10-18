@@ -11,6 +11,7 @@
 const path = require('path');
 const fs = require('fs');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
+const { argv } = require('yargs');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
@@ -79,28 +80,47 @@ module.exports = {
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
 // config before eject: we're in ./node_modules/react-scripts/config/
-module.exports = {
-  dotenv: resolveApp('.env'),
-  appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
-  appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
-  appTsConfig: resolveApp('tsconfig.json'),
-  appJsConfig: resolveApp('jsconfig.json'),
-  yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveModule(resolveApp, 'src/setupTests'),
-  proxySetup: resolveApp('src/setupProxy.js'),
-  appNodeModules: resolveApp('node_modules'),
-  publicUrlOrPath,
-  // These properties only exist before ejecting:
-  ownPath: resolveOwn('.'),
-  ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
-  appTypeDeclarations: resolveApp('src/react-app-env.d.ts'),
-  ownTypeDeclarations: resolveOwn('lib/react-app.d.ts'),
-};
+
+const appConfigPath = resolveApp('react.config.js');
+
+let appConfig = {};
+
+if (fs.existsSync(appConfigPath)) {
+  const userAppConfig = require(appConfigPath);
+
+  appConfig =
+    (userAppConfig &&
+      userAppConfig.overrides &&
+      argv.config &&
+      userAppConfig.overrides[argv.config]) ||
+    {};
+}
+
+module.exports = Object.assign(
+  {
+    dotenv: resolveApp('.env'),
+    appPath: resolveApp('.'),
+    appBuild: resolveApp('build'),
+    appPublic: resolveApp('public'),
+    appHtml: resolveApp('public/index.html'),
+    appIndexJs: resolveModule(resolveApp, 'src/index'),
+    appPackageJson: resolveApp('package.json'),
+    appSrc: resolveApp('src'),
+    appTsConfig: resolveApp('tsconfig.json'),
+    appJsConfig: resolveApp('jsconfig.json'),
+    yarnLockFile: resolveApp('yarn.lock'),
+    testsSetup: resolveModule(resolveApp, 'src/setupTests'),
+    proxySetup: resolveApp('src/setupProxy.js'),
+    appNodeModules: resolveApp('node_modules'),
+    publicUrlOrPath,
+    // These properties only exist before ejecting:
+    ownPath: resolveOwn('.'),
+    ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
+    appTypeDeclarations: resolveApp('src/react-app-env.d.ts'),
+    ownTypeDeclarations: resolveOwn('lib/react-app.d.ts'),
+  },
+  appConfig
+);
 
 const ownPackageJson = require('../package.json');
 const reactScriptsPath = resolveApp(`node_modules/${ownPackageJson.name}`);
