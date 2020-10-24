@@ -73,6 +73,7 @@ module.exports = {
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
+  swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
 };
 
@@ -80,7 +81,6 @@ module.exports = {
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
 // config before eject: we're in ./node_modules/react-scripts/config/
-
 const appConfigPath = resolveApp('react.config.js');
 
 let appConfig = {};
@@ -112,6 +112,7 @@ module.exports = Object.assign(
     testsSetup: resolveModule(resolveApp, 'src/setupTests'),
     proxySetup: resolveApp('src/setupProxy.js'),
     appNodeModules: resolveApp('node_modules'),
+    swSrc: resolveModule(resolveApp, 'src/service-worker'),
     publicUrlOrPath,
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
@@ -149,6 +150,7 @@ if (
     testsSetup: resolveModule(resolveOwn, `${templatePath}/src/setupTests`),
     proxySetup: resolveOwn(`${templatePath}/src/setupProxy.js`),
     appNodeModules: resolveOwn('node_modules'),
+    swSrc: resolveModule(resolveOwn, `${templatePath}/src/service-worker`),
     publicUrlOrPath,
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
